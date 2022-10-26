@@ -1,43 +1,28 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.9.3
-jobs: # a basic unit of work in a run
+jobs:
   notify:
     docker:
       - image: 'cimg/base:stable'
     steps:
       - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: basic_success_1
-  test: # your job name
-    macos:
-      xcode: 11.3.0 # indicate our selected version of Xcode
-    steps: # a series of commands to run
-      - checkout  # pull down code from your version control system.
-      - run:
-          name: Run Unit Tests
-          command: xcodebuild test -scheme circleci-demo-macos
-
-  build: 
-    macos:
-      xcode: 11.3.0 # indicate our selected version of Xcode
-    steps: 
-      - checkout
-      - run:
-          # build our application
-          name: Build Application
-          command: xcodebuild
-      - run:
-          # compress Xcode's build output so that it can be stored as an artifact
-          name: Compress app for storage
-          command: zip -r app.zip build/Release/circleci-demo-macos.app
-      - store_artifacts: # store this build output. Read more: https://circleci.com/docs/2.0/artifacts/
-          path: app.zip
-          destination: app
-          
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
 workflows:
   send-notification:
     jobs:
