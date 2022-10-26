@@ -1,89 +1,11 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.9.3
-jobs:
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Job Succeeded. :white_check_mark:",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Job*: ${CIRCLE_JOB}"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch*: $CIRCLE_BRANCH"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit*: $CIRCLE_SHA1"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author*: $CIRCLE_USERNAME"
-                    }
-                  ],
-                  "accessory": {
-                    "type": "image",
-                    "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
-                    "alt_text": "CircleCI logo"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "Success!"
-                    }
-                  ],
-                  "accessory": {
-                    "type": "image",
-                    "image_url": "https://giphy.com/gifs/quixyofficial-happy-nocode-no-code-XsMwhdxF8uxMd9doiS",
-                    "alt_text": "Success!"
-                  }
-                }
-              ]
-            }
+  slack-notifier: martyzz1/slack-notifier@4.2.0
 workflows:
   send-notification:
     jobs:
-      - notify:
+      - slack-notifier/slack-workflow-monitor:
           context: slack-notifications
+          giphy-failure-keyword: broken
+          giphy-success-keyword: party
+          workflow-name: send-notification
