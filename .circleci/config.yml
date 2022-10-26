@@ -5,16 +5,13 @@ jobs: # a basic unit of work in a run
   notify:
     docker:
       - image: 'cimg/base:stable'
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - slack/notify:
           event: fail
           template: basic_fail_1
       - slack/notify:
           event: pass
-          template: success_tagged_deploy_1
+          template: basic_success_1
   test: # your job name
     macos:
       xcode: 11.3.0 # indicate our selected version of Xcode
@@ -42,11 +39,7 @@ jobs: # a basic unit of work in a run
           destination: app
           
 workflows:
-  test_build:
+  send-notification:
     jobs:
-      - test
-      - build:
-          requires:
-            - test
       - notify:
           context: slack-notifications
