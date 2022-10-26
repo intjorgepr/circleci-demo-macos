@@ -15,7 +15,7 @@ jobs:
           command: |
             #!/usr/bin/env bash
 
-            exit 1
+            exit 0
 
 
 workflows:
