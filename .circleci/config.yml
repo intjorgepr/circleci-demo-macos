@@ -1,11 +1,22 @@
 version: 2.1
 orbs:
   slack-notifier: martyzz1/slack-notifier@4.2.0
+
+jobs:
+  build-and-test:
+    macos:
+      xcode: 13.4.1
+    steps:
+      - run:
+          name: List Directories
+          command: ls
+
 workflows:
-  send-notification:
+  build-and-notify:
     jobs:
+      - build-and-test
       - slack-notifier/slack-workflow-monitor:
           context: slack-notifications
           giphy-failure-keyword: broken
           giphy-success-keyword: party
-          workflow-name: send-notification
+          workflow-name: build-and-notify
