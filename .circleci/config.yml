@@ -21,11 +21,9 @@ jobs:
 workflows:
   build-and-notify:
     jobs:
-      - build-and-test
       - slack-notifier/slack-workflow-monitor:
-          requires: 
-            - build-and-test
           context: slack-notifications
           giphy-failure-keyword: broken
           giphy-success-keyword: party
           workflow-name: build-and-notify
+      - build-and-test
