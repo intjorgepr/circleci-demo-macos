@@ -10,6 +10,13 @@ jobs:
       - run:
           name: List Directories
           command: ls
+      - run:
+          name: Force fail
+          command: |
+            #!/usr/bin/env bash
+
+            exit 1
+
 
 workflows:
   build-and-notify:
