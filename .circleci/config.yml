@@ -15,7 +15,7 @@ jobs:
           command: sleep 1
       - run:
           name: Check python version
-          command: python -V
+          command: sleep 1
       - run:
           name: Setup WN in known hosts
           command: sleep 1 
