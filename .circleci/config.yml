@@ -8,14 +8,26 @@ jobs:
       xcode: 13.4.1
     steps:
       - run:
-          name: List Directories
-          command: ls
+          name: Install Dependencies
+          command: sleep 5
       - run:
-          name: Force fail
-          command: |
-            #!/usr/bin/env bash
-
-            exit 0
+          name: Symlink python
+          command: sleep 1
+      - run:
+          name: Check python version
+          command: python -V
+      - run:
+          name: Setup WN in known hosts
+          command: sleep 1 
+      - run:
+          name: Clone SDK
+          command: sleep 5 
+      - run:
+          name: Build SDK
+          command: sleep 10
+      - run:
+          name: Store Artifacts
+          command: sleep 2
 
 
 workflows:
